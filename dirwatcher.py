@@ -9,8 +9,8 @@ __author__ = "Jalal"
 import sys
 import argparse
 # import os
-# import signal
-# import logging
+import signal
+import logging
 # import time
 
 
@@ -40,14 +40,15 @@ def create_parser():
 
 
 def signal_handler(sig_num, frame):
+    logging.warning('Received ' + signal.Signals(sig_num).name)
     print('Exiting with', sig_num)
-    print('FRAME with', frame.f_lineno)
+
     raise SystemExit('Exiting')
     return
 
 
 def main(args):
-    """Implementation of dirwatcher"""
+    """create a command line parser for dirwatcher"""
     parser = create_parser()
     ns = parser.parse_args(args)
     print(ns)
