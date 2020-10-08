@@ -6,8 +6,12 @@ Dirwatcher - A long-running program
 __author__ = "Jalal"
 
 
-import argparse
 import sys
+import argparse
+# import os
+# import signal
+# import logging
+# import time
 
 
 def search_for_magic(filename, start_line, magic_string):
@@ -16,14 +20,14 @@ def search_for_magic(filename, start_line, magic_string):
 
 
 def watch_directory(path, magic_string, extension, interval):
-    # Your code here
+    print(path, magic_string, extension, interval)
     return
 
 
 def create_parser():
     """Create a command line parser and setup cmd line arguments."""
     parser = argparse.ArgumentParser(
-        description="Check the directory for a magic word")
+        description='Watches the directory for a magic word')
     parser.add_argument(
         '-e', help='extension of file name', default=".txt")
     parser.add_argument(
@@ -31,20 +35,27 @@ def create_parser():
     parser.add_argument(
         'magic', help='magic word to find')
     parser.add_argument(
-        '-d', '--dir', default='.', help="directory to watch, defaults to '.'")
+        'path', help='directory to watch')
     return parser
 
 
 def signal_handler(sig_num, frame):
-    # Your code here
+    print('Exiting with', sig_num)
+    print('FRAME with', frame.f_lineno)
+    raise SystemExit('Exiting')
     return
 
 
 def main(args):
+    """Implementation of dirwatcher"""
     parser = create_parser()
-    if not args:
-        parser.print_usage()
+    ns = parser.parse_args(args)
+    print(ns)
+
+    if not ns:
+        parser.print_usage(args)
         sys.exit(1)
+    return
 
 
 if __name__ == '__main__':
