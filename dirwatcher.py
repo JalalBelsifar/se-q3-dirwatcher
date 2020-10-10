@@ -62,8 +62,12 @@ def check_deleted_files(path, new_file_dict):
 
 
 def watch_directory(path, magic_string, extension, interval):
-    print(path, magic_string, extension, interval)
-    return
+    """Call given directories and reports changes in a given path"""
+    global tracking_dict
+    new_file_dict = {f: 1 for f in os.listdir(path) if f.endswith(extension)}
+    check_added_files(path, new_file_dict, tracking_dict)
+    check_deleted_files(path, new_file_dict)
+    scan_single_file(tracking_dict, extension, path, magic_string)
 
 
 def create_parser():
