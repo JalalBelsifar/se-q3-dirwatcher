@@ -9,7 +9,9 @@ import sys
 import argparse
 import os
 import logging
+import signal
 
+exit_flag = False
 tracking_dict = {}
 
 logger = logging.getLogger(__name__)
@@ -85,10 +87,16 @@ def create_parser():
 
 def signal_handler(sig_num, frame):
     """Signal Handler for SIGTERM and SIGINT."""
+    global exit_flag
+    logger.warning('Received ' + signal.Signals(sig_num).name)
+    exit_flag = True
 
 
 def main(args):
     """Create a command line parser for dirwatcher."""
+    global exit_flag
+    signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
 
     parser = create_parser()
     ns = parser.parse_args(args)
