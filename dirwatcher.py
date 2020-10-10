@@ -3,16 +3,20 @@
 Dirwatcher - A long-running program
 """
 
-__author__ = "jalal, help from John"
+__author__ = "jalal"
 
 import sys
-
 import argparse
+import os
 
 
-def search_for_magic(filename, start_line, magic_string):
-    # Your code here
-    return
+def search_for_magic(magic_string, line, file_title, line_index, path):
+    """Searches a read line for a magic word and
+     only logs when magic word is found ."""
+    if magic_string in line:
+        (
+            f'Magic text found: line {line_index + 1} of file '
+            f'{os.path.join(path, file_title)}')
 
 
 def watch_directory(path, magic_string, extension, interval):
