@@ -9,6 +9,8 @@ import sys
 import argparse
 import os
 
+tracking_dict = {}
+
 
 def search_for_magic(magic_string, line, file_title, line_index, path):
     """Searches a read line for a magic word and
@@ -17,6 +19,19 @@ def search_for_magic(magic_string, line, file_title, line_index, path):
         (
             f'Magic text found: line {line_index + 1} of file '
             f'{os.path.join(path, file_title)}')
+
+
+def scan_single_file(tracking_dict, extension, path, magic_string):
+    """Return a file with the proper extension"""
+
+
+def check_added_files(path, new_file_dict, tracking_dict):
+    """Return a list of newly added files and adds them to global dict."""
+
+
+def check_deleted_files(path, new_file_dict):
+    """Logs removed files from provided directory and
+    adds them to global dict."""
 
 
 def watch_directory(path, magic_string, extension, interval):
