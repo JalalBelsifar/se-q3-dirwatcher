@@ -8,8 +8,17 @@ __author__ = "jalal"
 import sys
 import argparse
 import os
+import logging
 
 tracking_dict = {}
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    '%(asctime)s %(name)s %(levelname)s \n%(message)s')
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 def search_for_magic(magic_string, line, file_title, line_index, path):
@@ -36,6 +45,10 @@ def scan_single_file(tracking_dict, extension, path, magic_string):
 
 def check_added_files(path, new_file_dict, tracking_dict):
     """Return a list of newly added files and adds them to global dict."""
+    for f in new_file_dict:
+        if f not in tracking_dict:
+            logger.info(f'Added {f}')
+            tracking_dict.update({f: 0})
 
 
 def check_deleted_files(path, new_file_dict):
