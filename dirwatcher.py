@@ -54,6 +54,11 @@ def check_added_files(path, new_file_dict, tracking_dict):
 def check_deleted_files(path, new_file_dict):
     """Logs removed files from provided directory and
     adds them to global dict."""
+    global tracking_dict
+    for f in list(tracking_dict):
+        if f not in new_file_dict:
+            logger.info(f'Removed {f}')
+            tracking_dict.pop(f)
 
 
 def watch_directory(path, magic_string, extension, interval):
