@@ -23,6 +23,15 @@ def search_for_magic(magic_string, line, file_title, line_index, path):
 
 def scan_single_file(tracking_dict, extension, path, magic_string):
     """Return a file with the proper extension"""
+    for file_title in tracking_dict:
+        with open(os.path.join(path, file_title)) as read_f:
+            line_index = tracking_dict[file_title]
+            lines = read_f.readlines()[line_index:]
+            for line in lines:
+                search_for_magic(magic_string, line,
+                                 file_title, line_index, path)
+                line_index += 1
+                tracking_dict.update({file_title: line_index})
 
 
 def check_added_files(path, new_file_dict, tracking_dict):
