@@ -3,15 +3,11 @@
 Dirwatcher - A long-running program
 """
 
-__author__ = "Jalal"
-
+__author__ = "jalal, help from John"
 
 import sys
+
 import argparse
-# import os
-import signal
-import logging
-# import time
 
 
 def search_for_magic(filename, start_line, magic_string):
@@ -25,30 +21,25 @@ def watch_directory(path, magic_string, extension, interval):
 
 
 def create_parser():
-    """Create a command line parser and setup cmd line arguments."""
-    parser = argparse.ArgumentParser(
-        description='Watches the directory for a magic word')
-    parser.add_argument(
-        '-e', help='extension of file name', default=".txt")
-    parser.add_argument(
-        '-i', help='--interval', default=1)
-    parser.add_argument(
-        'magic', help='magic word to find')
-    parser.add_argument(
-        'path', help='directory to watch')
+    """Creates parser and setup cmd line options."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-dir', '--directory', default='.',
+                        help='Directory to be watched.')
+    parser.add_argument('-ext', '--extension', default='txt',
+                        help='Extentions to be watched.')
+    parser.add_argument('-int', '--interval', type=int, default=1,
+                        help='Polling interval. Default 1.0 seconds')
+    parser.add_argument('magic', help='Magic word to be found')
     return parser
 
 
 def signal_handler(sig_num, frame):
-    logging.warning('Received ' + signal.Signals(sig_num).name)
-    print('Exiting with', sig_num)
-
-    raise SystemExit('Exiting')
-    return
+    """Signal Handler for SIGTERM and SIGINT."""
 
 
 def main(args):
-    """create a command line parser for dirwatcher"""
+    """Create a command line parser for dirwatcher."""
+
     parser = create_parser()
     ns = parser.parse_args(args)
     print(ns)
