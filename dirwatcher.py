@@ -10,6 +10,8 @@ import argparse
 import os
 import logging
 import signal
+import time
+import datetime
 
 exit_flag = False
 tracking_dict = {}
@@ -100,12 +102,33 @@ def main(args):
 
     parser = create_parser()
     ns = parser.parse_args(args)
-    print(ns)
-
     if not ns:
-        parser.print_usage(args)
-        sys.exit(1)
-    return
+        parser.print_usage()
+        exit_flag = True
+    path = ns.directory
+    extension = ns.extension
+    magic_word = ns.magic
+    interval = ns.interval
+
+    start_time = datetime.datetime.now()
+    # startup banner
+    logger.info(
+        '\n'
+        '-------------------------------------------------------------\n'
+        '      Running: {}\n'
+        '      started on: {}\n'
+        '-------------------------------------------------------------\n'
+        .format(__file__, start_time.isoformat())
+    )
+    global tracking_dict
+    while not exit_flag:
+        time.sleep(interval)
+        try:
+            watch_directory(path, magic_word, extension, interval)
+        except FileNotFoundError:
+            logger.error(
+                f'Directory does not exist: {os.path.abspath(path)}')
+            time.sleep(5)
 
 
 if __name__ == '__main__':
