@@ -3,18 +3,19 @@
 Dirwatcher - A long-running program
 """
 
-__author__ = "jalal"
+__author__ = "jalal, help from John"
 
 import sys
-import argparse
-import os
-import logging
-import signal
 import time
 import datetime
+import signal
+import logging
+import os
+import argparse
 
 exit_flag = False
 tracking_dict = {}
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -29,7 +30,7 @@ def search_for_magic(magic_string, line, file_title, line_index, path):
     """Searches a read line for a magic word and
      only logs when magic word is found ."""
     if magic_string in line:
-        (
+        logger.info(
             f'Magic text found: line {line_index + 1} of file '
             f'{os.path.join(path, file_title)}')
 
@@ -129,6 +130,17 @@ def main(args):
             logger.error(
                 f'Directory does not exist: {os.path.abspath(path)}')
             time.sleep(5)
+
+    uptime = datetime.datetime.now() - start_time
+    # shutdown banner
+    logger.info(
+        '\n'
+        '--------------------------------------------------------------\n'
+        '      Running: {}\n'
+        '      stopped on: {}\n'
+        '--------------------------------------------------------------\n'
+        .format(__file__, str(uptime))
+    )
 
 
 if __name__ == '__main__':
