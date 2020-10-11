@@ -36,7 +36,7 @@ def search_for_magic(magic_string, line, file_title, line_index, path):
 
 
 def scan_single_file(tracking_dict, extension, path, magic_string):
-    """Return a file with the proper extension"""
+    """Return a file with the proper extension by looping at each line"""
     for file_title in tracking_dict:
         with open(os.path.join(path, file_title)) as read_f:
             line_index = tracking_dict[file_title]
@@ -96,7 +96,7 @@ def signal_handler(sig_num, frame):
 
 
 def main(args):
-    """Create a command line parser for dirwatcher."""
+    """Create a command line parser for dirwatcher program."""
     global exit_flag
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
